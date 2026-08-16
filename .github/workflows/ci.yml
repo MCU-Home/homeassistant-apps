@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2026 The MCUHome Contributors
+# SPDX-License-Identifier: Apache-2.0
+#
+# CI for the MCUHome app repository. This repository holds no program, so
+# there is one gate and it is a spell-checker for metadata: the Supervisor
+# validates an app when a user installs it, and finding a misspelled key
+# there means finding it on somebody else's machine.
+#
+# All actions are pinned to commit SHAs, not tags (see dependabot.yml).
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: App metadata + REUSE
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.13"
+
+      - name: Install tools
+        run: pip install pyyaml reuse==5.0.2
+
+      - name: Check the apps
+        run: python tools/check_apps.py
+
+      - name: Check licensing
+        run: reuse lint

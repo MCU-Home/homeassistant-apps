@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: 2026 The MCUHome Contributors
+# SPDX-License-Identifier: Apache-2.0
+configuration:
+  log_level:
+    name: Log level
+    description: >-
+      How much the app writes to its log. Raise it to debug when reporting a
+      problem; info is right for everyday use.

@@ -1,0 +1,55 @@
+# SPDX-FileCopyrightText: 2026 The MCUHome Contributors
+# SPDX-License-Identifier: Apache-2.0
+#
+# The MCUHome dashboard as a Home Assistant App.
+#
+# This file is metadata only. The image it names is built and published by
+# the dashboard repository (https://github.com/mcu-home/dashboard); the
+# `version` below is the tag that is pulled, so it and the dashboard's
+# release tag move together.
+name: MCUHome Dashboard
+version: 0.1.0
+slug: mcuhome-ui
+description: Create, build and manage Zephyr-based smart home devices from your browser.
+url: https://github.com/mcu-home/dashboard
+image: ghcr.io/mcu-home/mcuhome-dashboard-homeassistant
+arch:
+  - amd64
+init: false
+startup: application
+boot: auto
+
+# The browser reaches the dashboard only through Home Assistant's ingress:
+# the app serves no public site, and the port below is not published to the
+# host. Who may do what is decided per request from the ingress identity.
+ingress: true
+ingress_port: 8099
+panel_icon: mdi:chip
+panel_title: MCUHome
+
+# Ingress tells the app *which* Home Assistant user is asking, and nothing
+# more. Whether that user is an administrator — the difference between
+# reading a configuration and changing or building one — is answered by the
+# Supervisor's own user list, and that endpoint is open to the admin role
+# alone. Without it every ingress user would be read-only.
+hassio_api: true
+hassio_role: admin
+
+# The MCUHome project — device configurations, secrets, shared pieces —
+# lives in this app's own configuration directory, reachable from a file
+# editor as /addon_configs/<id>_mcuhome-ui. The app maps nothing else: it
+# cannot read or write the Home Assistant configuration.
+map:
+  - type: addon_config
+    read_only: false
+
+# Backups carry the project and the firmware signing key. They deliberately
+# do not carry build output: it is large, it is reproducible from the
+# project, and a restore has no use for it.
+backup_exclude:
+  - builds
+
+options:
+  log_level: info
+schema:
+  log_level: list(debug|info|warning|error)
