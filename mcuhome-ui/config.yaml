@@ -8,13 +8,14 @@
 # `version` below is the tag that is pulled, so it and the dashboard's
 # release tag move together.
 name: MCUHome Dashboard
-version: 0.1.0
+version: 0.1.1
 slug: mcuhome-ui
 description: Create, build and manage Zephyr-based smart home devices from your browser.
 url: https://github.com/mcu-home/dashboard
 image: ghcr.io/mcu-home/mcuhome-dashboard-homeassistant
 arch:
   - amd64
+  - aarch64
 init: false
 startup: application
 boot: auto
