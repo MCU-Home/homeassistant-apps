@@ -6,14 +6,14 @@ installable from the App store.
 **Settings → Apps → App Store → ⋮ → Repositories**, then paste:
 
 ```
-https://github.com/mcu-home/ha-apps-repository
+https://github.com/mcu-home/homeassistant-apps
 ```
 
 ## The Apps
 
 | App | What it is | Source |
 |---|---|---|
-| [MCUHome Dashboard](mcuhome-ui/) | The web interface: create, edit, validate and build devices | [mcu-home/dashboard](https://github.com/mcu-home/dashboard) |
+| [MCUHome Dashboard](mcuhome-ui/) | The web interface: create, edit, validate and build devices | [mcu-home/mcuhome-ui](https://github.com/mcu-home/mcuhome-ui) |
 
 MCUHome never compiles firmware inside the dashboard, so a build needs a
 build server. That App is not here yet.

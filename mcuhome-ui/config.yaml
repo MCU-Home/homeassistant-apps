@@ -4,15 +4,15 @@
 # The MCUHome dashboard as a Home Assistant App.
 #
 # This file is metadata only. The image it names is built and published by
-# the dashboard repository (https://github.com/mcu-home/dashboard); the
+# the mcuhome-ui repository (https://github.com/mcu-home/mcuhome-ui); the
 # `version` below is the tag that is pulled, so it and the dashboard's
 # release tag move together.
 name: MCUHome Dashboard
-version: 0.1.1
+version: 0.1.2
 slug: mcuhome-ui
 description: Create, build and manage Zephyr-based smart home devices from your browser.
-url: https://github.com/mcu-home/dashboard
-image: ghcr.io/mcu-home/mcuhome-dashboard-homeassistant
+url: https://github.com/mcu-home/mcuhome-ui
+image: ghcr.io/mcu-home/ui-homeassistant-app
 arch:
   - amd64
   - aarch64
