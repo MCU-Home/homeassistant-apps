@@ -1,65 +1,85 @@
-# MCUHome — Home Assistant Apps
+# homeassistant-apps
 
-Add this repository to Home Assistant once, and every MCUHome App becomes
-installable from the App store.
+The Home Assistant app repository for MCUHome: the one source URL a user adds
+so that every MCUHome app becomes installable from Home Assistant's app store.
+It carries metadata only: the images it names are built and published by each
+app's own source repository.
 
-**Settings → Apps → App Store → ⋮ → Repositories**, then paste:
+## What this repository holds
+
+- `repository.yaml` — the manifest Home Assistant reads when the URL is added,
+  naming the source and the project behind it.
+- One directory per app, named by the slug a user sees in paths such as
+  `/addon_configs/<id>_<slug>`; `mcuhome-ui/` is the MCUHome web interface.
+- Each app's `config.yaml` — the image to pull and the architectures it exists
+  for, the version tag, ingress, the Supervisor permissions the app receives,
+  and its options schema.
+- Each app's `DOCS.md`, which the Supervisor shows as the app's documentation,
+  and `translations/`, which carries the wording of its configuration options.
+- `tools/check_apps.py` — the metadata check, which catches on a pull request
+  what the Supervisor would otherwise report during an install on someone's
+  machine.
+
+## Using it
+
+In Home Assistant, go to Settings → Apps and select Install app; from the
+three-dot menu in the top-right corner choose Repositories, and add the URL
+below. The MCUHome apps then appear in the app store and install, update and
+start like any other.
 
 ```
 https://github.com/mcu-home/homeassistant-apps
 ```
 
-## The Apps
+## How it fits into MCUHome
 
-| App | What it is | Source |
-|---|---|---|
-| [MCUHome Dashboard](mcuhome-ui/) | The web interface: create, edit, validate and build devices | [mcu-home/mcuhome-ui](https://github.com/mcu-home/mcuhome-ui) |
+An app directory names an image and the version the Supervisor pulls as its
+tag; the image itself is built and published by the repository that holds the
+app's source. `mcuhome-ui/` points that way at
+[mcuhome-ui](https://github.com/mcu-home/mcuhome-ui), whose release publishes
+`ghcr.io/mcu-home/ui-homeassistant-app` and whose tag the version key here
+matches. No app carries a Dockerfile, so adding an app to MCUHome's app
+source means adding its metadata, not its build.
 
-MCUHome never compiles firmware inside the dashboard, so a build needs a
-build server. That App is not here yet.
+## Working on this repository
 
-## What this repository is, and is not
-
-It is **metadata only**: one directory per App, each holding the
-`config.yaml` Home Assistant reads, its documentation and its
-translations. There is no Dockerfile here and there will not be one.
-
-Every App's image is built and published by the repository that holds its
-**source**, from the same commit that produced the code inside it. This
-repository names those images and pins the tag. The split follows the one
-rule worth having about packaging: the thing that knows how to build the
-program is the thing that builds it, and metadata is metadata.
+The metadata check is a Python 3.13 script with one dependency; run it from
+the repository root:
 
 ```
-repository.yaml          the source Home Assistant adds
-mcuhome-ui/
-  config.yaml            what Home Assistant installs, and from where
-  DOCS.md                the App's Documentation tab
-  translations/en.yaml   option labels
-tools/check_apps.py      what CI checks before a user's Supervisor does
+pip install pyyaml
+python tools/check_apps.py
 ```
 
-## Releasing an App
+It reads `repository.yaml` and every app directory and reports the keys an app
+cannot work without, a slug or version that does not match what the Supervisor
+expects, an unknown architecture, and missing documentation. GitHub Actions
+runs it on every push and pull request, alongside REUSE licence linting,
+codespell, whitespace and YAML hygiene, and a conventional-commit check.
 
-The Supervisor pulls the image tag named by `version:` in an App's
-`config.yaml`. So a release is two steps, in this order:
+## Security
 
-1. **In the source repository**, tag the release. Its workflow builds the
-   image and pushes it to GHCR under that version.
-2. **Here**, set `version:` in the App's `config.yaml` to the same string.
+The permissions an installed app receives are declared here: whether it is
+reached through ingress, which Supervisor role it asks for, and which
+directories are mapped into it. Those keys decide what an app may read and
+change on a user's system, so each app declares the grants it needs to work
+and no others. Vulnerabilities are reported through the organization's
+[security policy](https://github.com/mcu-home/.github/blob/main/SECURITY.md).
 
-Home Assistant then offers the update to everyone who has the App
-installed. Doing it the other way round offers an update that cannot be
-pulled, so the order is the whole procedure.
+## Documentation
 
-The two are kept in step by hand for now. If that turns out to be a
-recurring nuisance rather than an occasional one, it becomes a workflow.
+- [mcuhome-ui/DOCS.md](mcuhome-ui/DOCS.md) — what the MCUHome web interface app does
+- [mcuhome-ui](https://github.com/mcu-home/mcuhome-ui) — its source and its images
+- [Home Assistant app repositories](https://developers.home-assistant.io/docs/apps/repository/) — the format this follows
+- [MCUHome on GitHub](https://github.com/mcu-home) — the family of repositories
 
-## Contributing
+## Contributing and support
 
-Issues about an App itself belong in its source repository — the table
-above links each one. What belongs here is packaging: a wrong permission,
-a missing mapping, documentation that describes the App incorrectly.
+Problem reports and questions belong in this repository's
+[issue tracker](https://github.com/mcu-home/homeassistant-apps/issues).
+Before opening a pull request, read the organization's
+[contributing guide](https://github.com/mcu-home/.github/blob/main/CONTRIBUTING.md).
 
-Licensed under Apache-2.0; the repository is
-[REUSE](https://reuse.software/)-compliant.
+## License
+
+Apache License 2.0, see [LICENSE](LICENSE).
