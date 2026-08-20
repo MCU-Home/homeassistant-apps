@@ -73,4 +73,4 @@ If the app cannot reach it, it fails closed: everyone is read-only.
 ## Support
 
 Issues and questions:
-[github.com/mcu-home/dashboard/issues](https://github.com/mcu-home/dashboard/issues)
+[github.com/mcu-home/mcuhome-ui/issues](https://github.com/mcu-home/mcuhome-ui/issues)

@@ -1,7 +1,7 @@
 version = 1
 SPDX-PackageName = "MCUHome Home Assistant Apps"
 SPDX-PackageSupplier = "The MCUHome Contributors"
-SPDX-PackageDownloadLocation = "https://github.com/mcu-home/ha-apps-repository"
+SPDX-PackageDownloadLocation = "https://github.com/mcu-home/homeassistant-apps"
 
 # Fallback annotation: files carrying their own SPDX headers take
 # precedence ("closest"); everything else is covered here.
