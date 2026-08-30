@@ -41,21 +41,33 @@ app's source. `mcuhome-ui/` points that way at
 matches. No app carries a Dockerfile, so adding an app to MCUHome's app
 source means adding its metadata, not its build.
 
-## Working on this repository
+## Development — how to work on this repository
 
-The metadata check is a Python 3.13 script with one dependency; run it from
-the repository root:
+This repository has its own virtual environment in `.venv/`; nothing is
+installed into the system Python or into another repository's environment.
+`bin/` holds the user-facing entry points, `scripts/` the development
+tooling: `scripts/test` and `scripts/lint` dispatch the checks — `all` runs
+every one, `list` names them, `<name>` runs one — and each check is its own
+wrapper in `scripts/test.d/` or `scripts/lint.d/`. The wrappers select
+`.venv` themselves (never activate one by hand) and are exactly what CI
+runs, one job per check.
 
+The metadata check (`scripts/check_apps.py`) is a Python 3.13 script with
+one dependency beyond the standard library; this repository publishes no
+distribution, so only the dev group is installed.
+
+```sh
+python3.13 -m venv .venv && .venv/bin/pip install --group dev
 ```
-pip install pyyaml
-python scripts/check_apps.py
+
+```sh
+scripts/test all
+scripts/lint all
 ```
 
-It reads `repository.yaml` and every app directory and reports the keys an app
-cannot work without, a slug or version that does not match what the Supervisor
-expects, an unknown architecture, and missing documentation. GitHub Actions
-runs it on every push and pull request, alongside REUSE licence linting,
-codespell, whitespace and YAML hygiene, and a conventional-commit check.
+The rules that hold across every MCUHome repository — coding standards,
+commits, licensing — are in the organization's
+[contributing guide](https://github.com/mcu-home/.github/blob/main/CONTRIBUTING.md).
 
 ## Security
 
