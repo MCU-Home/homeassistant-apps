@@ -1,0 +1,51 @@
+# SPDX-FileCopyrightText: 2026 The MCUHome Contributors
+# SPDX-License-Identifier: Apache-2.0
+#
+# Test gate for the app repository: one job for the wrapper in
+# scripts/test.d/ (check-apps, this repository's own metadata check),
+# plus a pre-check that the wrapper has a job here.
+#
+# All actions are pinned to commit SHAs, not tags.
+
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check-gates:
+    name: Check gates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: scripts/test check-ci
+        run: scripts/test check-ci
+
+  test-check-apps:
+    name: Test (check-apps)
+    needs: check-gates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.13"
+
+      - name: Create .venv and install the dev tools
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install --disable-pip-version-check -U pip
+          .venv/bin/pip install --disable-pip-version-check --group dev
+
+      - name: scripts/test check-apps
+        run: scripts/test check-apps
