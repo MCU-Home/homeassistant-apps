@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2026 The MCUHome Contributors
+# SPDX-License-Identifier: Apache-2.0
+#
+# Development install:
+#
+#     python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
+#
+# pyyaml is scripts/check_apps.py's one dependency, reading config.yaml
+# and repository.yaml. ruff is the lint gate over scripts/, pinned to
+# the same version the other MCUHome repositories use; bump them
+# together.
+pyyaml==6.0.3
+ruff==0.16.1

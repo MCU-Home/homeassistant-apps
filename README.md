@@ -16,7 +16,7 @@ app's own source repository.
   and its options schema.
 - Each app's `DOCS.md`, which the Supervisor shows as the app's documentation,
   and `translations/`, which carries the wording of its configuration options.
-- `tools/check_apps.py` — the metadata check, which catches on a pull request
+- `scripts/check_apps.py` — the metadata check, which catches on a pull request
   what the Supervisor would otherwise report during an install on someone's
   machine.
 
@@ -48,7 +48,7 @@ the repository root:
 
 ```
 pip install pyyaml
-python tools/check_apps.py
+python scripts/check_apps.py
 ```
 
 It reads `repository.yaml` and every app directory and reports the keys an app

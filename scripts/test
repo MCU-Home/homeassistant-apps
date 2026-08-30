@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# SPDX-FileCopyrightText: 2026 The MCUHome Contributors
+# SPDX-License-Identifier: Apache-2.0
+#
+# The test gate: this repository's own metadata check
+# (scripts/check_apps.py), run from this repository's own .venv. Extra
+# arguments are passed through.
+set -euo pipefail
+
+root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+venv="$root/.venv"
+
+if [ ! -x "$venv/bin/python" ]; then
+  echo "scripts/test: no .venv found. Create it first: python3.13 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt (see README, \"Working on this repository\")." >&2
+  exit 1
+fi
+
+cd "$root"
+exec "$venv/bin/python" scripts/check_apps.py "$@"
