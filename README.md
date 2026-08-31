@@ -52,12 +52,12 @@ wrapper in `scripts/test.d/` or `scripts/lint.d/`. The wrappers select
 `.venv` themselves (never activate one by hand) and are exactly what CI
 runs, one job per check.
 
-The metadata check (`scripts/check_apps.py`) is a Python 3.13 script with
+The metadata check (`scripts/check_apps.py`) is a Python ≥3.13 script with
 one dependency beyond the standard library; this repository publishes no
 distribution, so only the dev group is installed.
 
 ```sh
-python3.13 -m venv .venv && .venv/bin/pip install --group dev
+python3 -m venv .venv && .venv/bin/pip install --group dev
 ```
 
 ```sh
