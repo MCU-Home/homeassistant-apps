@@ -5,6 +5,12 @@ SPDX-License-Identifier: Apache-2.0
 
 # MCUHome Dashboard
 
+This version is an early preview of the new web interface, running on
+built-in sample data. There is no back end behind it yet: nothing you see
+here is a real device or file, and no change you make is saved. Building
+and flashing firmware do not work yet either. The rest of this page
+describes what the app is going to do.
+
 Create, build and manage Zephyr-based smart home devices from your
 browser. Describe a device in YAML — board, sensors, what it reports —
 and MCUHome turns it into firmware that commissions into Home Assistant
