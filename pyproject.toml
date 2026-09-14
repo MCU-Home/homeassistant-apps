@@ -13,10 +13,10 @@
 [dependency-groups]
 dev = [
   "pyyaml==6.0.3",
-  "ruff==0.16.1",
+  "ruff==0.16.7",
   "codespell==2.4.3",
-  "reuse==5.0.2",
-  "pre-commit-hooks==5.0.0",
+  "reuse==6.2.0",
+  "pre-commit-hooks==6.0.0",
 ]
 
 [tool.ruff]
